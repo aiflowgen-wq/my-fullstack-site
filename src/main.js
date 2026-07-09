@@ -17,6 +17,7 @@ const submitStatus = document.getElementById('submit-status');
 const MSG_INVALID = '请填写姓名和有效的邮箱地址。';
 const MSG_FAILED = '提交失败,请检查网络后重试。';
 const MSG_TOO_LONG = '内容过长,请精简后重试。';
+const MSG_BAD_EMAIL = '邮箱格式不正确,请检查后重试。';
 
 // 由 JS 接管校验;若 JS 未加载,浏览器原生 required/email 校验仍能兜底
 form.noValidate = true;
@@ -75,7 +76,7 @@ form.addEventListener('submit', async (event) => {
   }
 
   // 蜜罐字段有值 → 机器人,静默按成功处理,不写库
-  if (String(data.get('company') || '').trim()) {
+  if (String(data.get('hp_field') || '').trim()) {
     showSuccess();
     return;
   }
@@ -108,9 +109,14 @@ form.addEventListener('submit', async (event) => {
   submitStatus.textContent = '';
 
   if (error) {
-    // 23514 = check 约束(过长),22001 = 字符串超列宽;其余按网络类处理
-    const tooLong = error.code === '23514' || error.code === '22001';
-    showError(tooLong ? MSG_TOO_LONG : MSG_FAILED);
+    // 按约束区分提示:邮箱格式 / 内容过长(23514=check 约束,22001=超列宽)/ 其余按网络类处理
+    let msg = MSG_FAILED;
+    if (/leads_email_format/.test(error.message || '')) {
+      msg = MSG_BAD_EMAIL;
+    } else if (error.code === '23514' || error.code === '22001') {
+      msg = MSG_TOO_LONG;
+    }
+    showError(msg);
     if (document.activeElement === document.body) submitBtn.focus();
     return;
   }

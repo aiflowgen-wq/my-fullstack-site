@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>智简历 — AI 简历优化服务</title>
+    <meta
+      name="description"
+      content="智简历用 AI 帮你诊断并改写简历,让你拿到更多面试机会。3 分钟出结果,隐私安全。"
+    />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <header class="site-header" id="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="#top">
+          <span class="brand-mark" aria-hidden="true">✦</span>
+          智简历
+        </a>
+        <nav class="header-nav" aria-label="主导航">
+          <a class="nav-link" href="#features">核心卖点</a>
+          <a class="btn btn-primary btn-sm" href="#contact">免费试用</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="top">
+      <!-- ① 顶部主张 + 行动按钮 -->
+      <section class="hero">
+        <div class="container hero-inner">
+          <p class="badge">AI 驱动 · 3 分钟出结果</p>
+          <h1>
+            30 秒<span class="grad">让简历更专业</span>
+          </h1>
+          <p class="hero-sub">
+            上传简历,智简历自动诊断问题、按目标岗位改写措辞,
+            平均帮助用户把面试邀约率提升一倍以上。
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary btn-lg" href="#contact">免费试用</a>
+            <a class="btn btn-ghost btn-lg" href="#features">了解它能做什么</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ② 三个卖点 -->
+      <section class="features" id="features">
+        <div class="container">
+          <h2 class="section-title">为什么选择智简历</h2>
+          <p class="section-sub">从诊断到改写,一站式解决简历问题</p>
+
+          <div class="feature-grid">
+            <article class="card">
+              <div class="card-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="11" cy="11" r="7" />
+                  <path d="m20 20-3.5-3.5" />
+                  <path d="M8.5 11h5M11 8.5v5" />
+                </svg>
+              </div>
+              <h3>智能诊断</h3>
+              <p>
+                30 秒扫描全文,自动定位空泛描述、缺少量化结果、关键词缺失等
+                20 多类常见问题,并给出逐条修改建议。
+              </p>
+            </article>
+
+            <article class="card">
+              <div class="card-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 20h9" />
+                  <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" />
+                </svg>
+              </div>
+              <h3>岗位级改写</h3>
+              <p>
+                粘贴目标岗位的招聘描述,AI 会站在招聘方视角重写你的经历要点,
+                突出与岗位的匹配度,而不是千篇一律的模板话术。
+              </p>
+            </article>
+
+            <article class="card">
+              <div class="card-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 3 5 6v5c0 4.5 3 8.2 7 9.5 4-1.3 7-5 7-9.5V6Z" />
+                  <path d="m9 12 2 2 4-4" />
+                </svg>
+              </div>
+              <h3>隐私安全</h3>
+              <p>
+                简历文件仅在当前会话内处理,支持一键删除,
+                绝不用于模型训练,也不会分享给任何第三方。
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ③ 联系 / 留资 -->
+      <section class="contact" id="contact">
+        <div class="container contact-inner">
+          <div class="contact-copy">
+            <h2 class="section-title">留下联系方式,抢先体验</h2>
+            <p class="section-sub">
+              目前处于内测阶段,填写下方信息,我们会按提交顺序发放体验邀请。
+            </p>
+            <ul class="contact-points">
+              <li>内测期间完全免费</li>
+              <li>邀请通过邮箱发送,请留意收件箱</li>
+              <li>信息仅用于产品联系,不会外泄</li>
+            </ul>
+          </div>
+
+          <div class="contact-form-wrap">
+            <form id="lead-form">
+              <div class="field">
+                <label for="name">姓名<span class="req" aria-hidden="true">*</span></label>
+                <input id="name" name="name" type="text" required autocomplete="name" placeholder="怎么称呼你" />
+              </div>
+              <div class="field">
+                <label for="email">邮箱<span class="req" aria-hidden="true">*</span></label>
+                <input id="email" name="email" type="email" required autocomplete="email" placeholder="you@example.com" />
+              </div>
+              <div class="field">
+                <label for="role">目标岗位(选填)</label>
+                <input id="role" name="role" type="text" placeholder="例如:前端工程师 / 产品经理" />
+              </div>
+              <div class="field">
+                <label for="message">想解决的问题(选填)</label>
+                <textarea id="message" name="message" rows="3" placeholder="例如:投了很多简历都没有回音…"></textarea>
+              </div>
+              <p class="form-error" id="form-error" role="alert" hidden>请填写姓名和有效的邮箱地址。</p>
+              <button class="btn btn-primary btn-lg btn-block" type="submit">提交,等待体验邀请</button>
+              <p class="form-note">提交即表示同意我们仅将以上信息用于产品联系。</p>
+            </form>
+
+            <div class="form-success" id="form-success" role="status" tabindex="-1" hidden>
+              <p class="success-title">已收到!</p>
+              <p>我们会尽快通过邮箱向你发送体验邀请,请留意收件箱。</p>
+              <button class="btn btn-ghost" type="button" id="fill-again">再填一份</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ④ 页脚 -->
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <div class="footer-brand">
+          <a class="brand" href="#top">
+            <span class="brand-mark" aria-hidden="true">✦</span>
+            智简历
+          </a>
+          <p>用 AI 帮每一份简历,找到它应得的机会。</p>
+        </div>
+        <nav class="footer-nav" aria-label="页脚导航">
+          <a href="#features">核心卖点</a>
+          <a href="#contact">联系我们</a>
+        </nav>
+      </div>
+      <div class="container footer-copy">
+        <p>© <span id="year">2026</span> 智简历 · 保留所有权利</p>
+      </div>
+    </footer>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

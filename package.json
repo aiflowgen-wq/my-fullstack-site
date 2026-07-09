@@ -11,5 +11,8 @@
   "devDependencies": {
     "vite": "^7.0.0",
     "wrangler": "^4.106.0"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.110.1"
   }
 }

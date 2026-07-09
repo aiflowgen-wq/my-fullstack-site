@@ -116,22 +116,28 @@
             <form id="lead-form">
               <div class="field">
                 <label for="name">姓名<span class="req" aria-hidden="true">*</span></label>
-                <input id="name" name="name" type="text" required autocomplete="name" placeholder="怎么称呼你" />
+                <input id="name" name="name" type="text" required maxlength="100" autocomplete="name" placeholder="怎么称呼你" />
               </div>
               <div class="field">
                 <label for="email">邮箱<span class="req" aria-hidden="true">*</span></label>
-                <input id="email" name="email" type="email" required autocomplete="email" placeholder="you@example.com" />
+                <input id="email" name="email" type="email" required maxlength="255" autocomplete="email" placeholder="you@example.com" />
               </div>
               <div class="field">
                 <label for="role">目标岗位(选填)</label>
-                <input id="role" name="role" type="text" placeholder="例如:前端工程师 / 产品经理" />
+                <input id="role" name="role" type="text" maxlength="100" placeholder="例如:前端工程师 / 产品经理" />
               </div>
               <div class="field">
                 <label for="message">想解决的问题(选填)</label>
-                <textarea id="message" name="message" rows="3" placeholder="例如:投了很多简历都没有回音…"></textarea>
+                <textarea id="message" name="message" rows="3" maxlength="2000" placeholder="例如:投了很多简历都没有回音…"></textarea>
+              </div>
+              <!-- 蜜罐字段:对用户不可见,机器人填了就静默丢弃 -->
+              <div class="visually-hidden" aria-hidden="true">
+                <label for="company">公司</label>
+                <input id="company" name="company" type="text" tabindex="-1" autocomplete="off" />
               </div>
               <p class="form-error" id="form-error" role="alert" hidden>请填写姓名和有效的邮箱地址。</p>
               <button class="btn btn-primary btn-lg btn-block" type="submit">提交,等待体验邀请</button>
+              <span class="visually-hidden" role="status" id="submit-status"></span>
               <p class="form-note">提交即表示同意我们仅将以上信息用于产品联系。</p>
             </form>
 

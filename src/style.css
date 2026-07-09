@@ -402,6 +402,19 @@ a {
   min-height: 88px;
 }
 
+/* 视觉隐藏但读屏可感知;也用于蜜罐字段 */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 .form-error {
   margin: 0 0 14px;
   color: #dc2626;

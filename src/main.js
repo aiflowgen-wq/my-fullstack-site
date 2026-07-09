@@ -12,12 +12,16 @@ const success = document.getElementById('form-success');
 const errorTip = document.getElementById('form-error');
 const fillAgain = document.getElementById('fill-again');
 const submitBtn = form.querySelector('button[type="submit"]');
+const submitStatus = document.getElementById('submit-status');
 
 const MSG_INVALID = '请填写姓名和有效的邮箱地址。';
 const MSG_FAILED = '提交失败,请检查网络后重试。';
+const MSG_TOO_LONG = '内容过长,请精简后重试。';
 
 // 由 JS 接管校验;若 JS 未加载,浏览器原生 required/email 校验仍能兜底
 form.noValidate = true;
+
+let submitting = false;
 
 const clearInvalidMarks = () => {
   form.querySelectorAll('[aria-invalid]').forEach((el) => {
@@ -26,24 +30,53 @@ const clearInvalidMarks = () => {
   });
 };
 
+const markInvalid = (el) => {
+  el.setAttribute('aria-invalid', 'true');
+  el.setAttribute('aria-describedby', 'form-error');
+};
+
 const showError = (message) => {
   errorTip.textContent = message;
   errorTip.hidden = false;
 };
 
+const showSuccess = () => {
+  form.hidden = true;
+  success.hidden = false;
+  success.focus();
+};
+
 form.addEventListener('submit', async (event) => {
   event.preventDefault();
+  if (submitting) return;
+
   clearInvalidMarks();
   errorTip.hidden = true;
 
   if (!form.checkValidity()) {
     showError(MSG_INVALID);
     const invalidFields = form.querySelectorAll(':invalid');
-    invalidFields.forEach((el) => {
-      el.setAttribute('aria-invalid', 'true');
-      el.setAttribute('aria-describedby', 'form-error');
-    });
+    invalidFields.forEach(markInvalid);
     invalidFields[0]?.focus();
+    return;
+  }
+
+  const data = new FormData(form);
+  const name = String(data.get('name')).trim();
+  const email = String(data.get('email')).trim();
+
+  // 纯空格能通过 required 校验,trim 后需再确认非空
+  if (!name || !email) {
+    showError(MSG_INVALID);
+    const field = document.getElementById(!name ? 'name' : 'email');
+    markInvalid(field);
+    field.focus();
+    return;
+  }
+
+  // 蜜罐字段有值 → 机器人,静默按成功处理,不写库
+  if (String(data.get('company') || '').trim()) {
+    showSuccess();
     return;
   }
 
@@ -52,29 +85,37 @@ form.addEventListener('submit', async (event) => {
     return;
   }
 
-  const data = new FormData(form);
-  submitBtn.disabled = true;
+  // 用 in-flight 标志 + aria-disabled 防连点,保住按钮焦点不丢
+  submitting = true;
+  submitBtn.setAttribute('aria-disabled', 'true');
   const originalLabel = submitBtn.textContent;
   submitBtn.textContent = '提交中…';
+  submitStatus.textContent = '正在提交,请稍候';
 
-  const { error } = await supabase.from('leads').insert({
-    name: String(data.get('name')).trim(),
-    email: String(data.get('email')).trim(),
-    role: String(data.get('role') || '').trim() || null,
-    message: String(data.get('message') || '').trim() || null,
-  });
+  const { error } = await supabase
+    .from('leads')
+    .insert({
+      name,
+      email,
+      role: String(data.get('role') || '').trim() || null,
+      message: String(data.get('message') || '').trim() || null,
+    })
+    .abortSignal(AbortSignal.timeout(15000));
 
-  submitBtn.disabled = false;
+  submitting = false;
+  submitBtn.removeAttribute('aria-disabled');
   submitBtn.textContent = originalLabel;
+  submitStatus.textContent = '';
 
   if (error) {
-    showError(MSG_FAILED);
+    // 23514 = check 约束(过长),22001 = 字符串超列宽;其余按网络类处理
+    const tooLong = error.code === '23514' || error.code === '22001';
+    showError(tooLong ? MSG_TOO_LONG : MSG_FAILED);
+    if (document.activeElement === document.body) submitBtn.focus();
     return;
   }
 
-  form.hidden = true;
-  success.hidden = false;
-  success.focus();
+  showSuccess();
 });
 
 fillAgain.addEventListener('click', () => {

@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>感谢支持 — 智简历</title>
+    <meta name="robots" content="noindex" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="stylesheet" href="/src/style.css" />
+    <style>
+      .thanks-page {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 24px;
+      }
+      .thanks-emoji {
+        font-size: 56px;
+        margin: 0 0 8px;
+      }
+      .thanks-page h1 {
+        margin: 0 0 10px;
+        letter-spacing: -0.01em;
+      }
+      .thanks-sub {
+        color: var(--muted);
+        margin: 0 0 28px;
+        max-width: 420px;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="thanks-page">
+      <p class="thanks-emoji" aria-hidden="true">🎉</p>
+      <h1>感谢你的支持!</h1>
+      <p class="thanks-sub">
+        感谢你的心意!如果支付成功,Stripe 会向你的邮箱发送收据。
+        你的每一份支持,都会变成智简历继续变好的动力。
+      </p>
+      <a class="btn btn-primary btn-lg" href="/">回到首页</a>
+    </main>
+  </body>
+</html>

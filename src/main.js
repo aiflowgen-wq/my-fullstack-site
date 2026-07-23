@@ -133,5 +133,40 @@ fillAgain.addEventListener('click', () => {
   document.getElementById('name').focus();
 });
 
+// 「支持我」按钮 → 服务端创建 Stripe Checkout 会话后跳转托管支付页
+const supportBtn = document.getElementById('support-btn');
+const supportLabel = supportBtn.textContent;
+
+const resetSupportBtn = () => {
+  supportBtn.textContent = supportLabel;
+  delete supportBtn.dataset.busy;
+};
+
+supportBtn.addEventListener('click', async () => {
+  if (supportBtn.dataset.busy) return;
+  supportBtn.dataset.busy = '1';
+  supportBtn.textContent = '正在打开支付页…';
+
+  try {
+    const resp = await fetch('/api/checkout', {
+      method: 'POST',
+      signal: AbortSignal.timeout(15000),
+    });
+    const data = await resp.json();
+    if (!resp.ok || !data.url) throw new Error(data.error || 'checkout_failed');
+    // 跳转前恢复按钮:从 Stripe 页按「返回」时页面可能从 bfcache 原样恢复
+    resetSupportBtn();
+    window.location.href = data.url;
+  } catch {
+    resetSupportBtn();
+    alert('支付页打开失败,请稍后重试。');
+  }
+});
+
+// bfcache 恢复兜底:确保返回本页时按钮总是可用
+window.addEventListener('pageshow', (event) => {
+  if (event.persisted) resetSupportBtn();
+});
+
 // 页脚年份
 document.getElementById('year').textContent = new Date().getFullYear();
